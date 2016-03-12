@@ -41,8 +41,7 @@ It should return the new price:
 \begin{solution}
   \begin{minted}{scheme}
 (define (discount p d)
-  (* p (- 1 (/ d 100.0)))
-)
+  (* p (- 1 (/ d 100.0))))
   \end{minted}
 \end{solution}
 
@@ -56,10 +55,7 @@ Write a function called \mintinline{scheme}{appearances} that returns the number
     0
     (if (equal? i (car l))  
       (+ 1 (appearances i (cdr l)))
-      (appearances i (cdr l))
-    )
-  )
-)   
+      (appearances i (cdr l)))))   
   \end{minted}
 \end{solution}
 
@@ -77,10 +73,7 @@ It should return a list containing every element that appears in both lists, exa
           (not (memq (car l1) (cdr l1)))
         )
       (cons (car l1) (inter (cdr l1) l2))
-      (inter (cdr l1) l2)
-    )
-  )
-)
+      (inter (cdr l1) l2))))
   \end{minted}
 \end{solution}
 
@@ -94,10 +87,7 @@ Write a procedure \mintinline{scheme}{noatoms} that takes a list and returns the
     0
     (if (not (or (pair? (car l)) (null? (car l))))
       (+ 1 (noatoms (cdr l)))
-      (noatoms (cdr l))
-    )
-  )
-)
+      (noatoms (cdr l)))))
   \end{minted}
 \end{solution}
 
@@ -124,9 +114,7 @@ Write a function called \mintinline{scheme}{range} that takes an integer $n$ and
 (define (range n)
   (if (= n 0)
     '()
-    (append (range (- n 1)) (list n))
-  )
-)
+    (append (range (- n 1)) (list n))))
 \end{minted}
 \end{solution}
 
@@ -167,8 +155,7 @@ It should return a sentence containing all the atoms of the list, in the order i
     '()
     (if (pair? (car l))
       (append (flatten (car l)) (flatten (cdr l)))
-      (cons (car l) (flatten (cdr l)))
-    )))
+      (cons (car l) (flatten (cdr l))))))
   \end{minted}
 \end{solution}
 
@@ -190,22 +177,12 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
             (if (= n 1)
               (list 1 0)
               (let ((l (fib (- n 1))))
-    	          (cons (+ (car l) (cadr l)) l)
-              )
-            )
-          )
-        )
-      )
-    )
+                (cons (+ (car l) (cadr l)) l)))))))
     (apply
       +
       (map
         (lambda (x) (if (= 0 (modulo x 2)) x 0))
-        (fib n)
-      )
-    )
-  )
-)
+        (fib n)))))
 
 ; Bonus function: calculates the n^th Fibonacci number. 
 (define (fib n)
@@ -213,10 +190,7 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
     0
     (if (= n 1)
       1
-      (+ (fib (- n 1)) (fib (- n 2)))
-    )
-  )
-)
+      (+ (fib (- n 1)) (fib (- n 2))))))
 
 ; Bonus function: lists the first n Fibonacci numbers.
 (define (listfibs n)
@@ -229,17 +203,8 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
             (if (= n 1)
               (list 1 0)
               (let ((l (fib (- n 1))))
-                (cons (+ (car l) (cadr l)) l)
-              )
-            )
-          )
-        )
-      )
-    )
-    (fib n)
-  )
-)
-
+                (cons (+ (car l) (cadr l)) l)))))))
+    (fib n)))
   \end{minted}
 \end{solution}
 
@@ -259,8 +224,7 @@ Write a procedure \mintinline{scheme}{to-binary}:
     '()
     (append
       (binary (/ (- n (modulo n 2)) 2))
-      (list (modulo n 2))
-    )))
+      (list (modulo n 2)))))
   \end{minted}
 \end{solution}
 
@@ -269,21 +233,27 @@ Write Heap's algorithm for generating permutations in Scheme.
 
 \begin{solution}
   \begin{minted}{scheme}
-(define (remove l i)
-  (if (= i 0)
-    (cdr l)
-    (cons (car l) (remove (cdr l) (- i 1)))
-  )
-)
+; From: stackoverflow.com/questions/35869763
+(define (generate n A)
+  (cond
+    ((= n 1) (display A)
+             (newline))
+    (else    (let loop ((i 0))
+               (generate (- n 1) A)
+               (if (even? n)
+                   (swap A i (- n 1))
+                   (swap A 0 (- n 1)))
+               (if (< i (- n 2))
+                   (loop (+ i 1))
+                   (generate (- n 1) A))))))
 
-(define (perm l)
-  (if (null? l)
-    '()
-    (cons )
-  )
-)
+(define (swap A i1 i2)
+  (let ((tmp (vector-ref A i1)))
+    (vector-set! A i1 (vector-ref A i2))
+    (vector-set! A i2 tmp)))
 
-(perm '(1 2 3))
+(define (heap l)
+	(generate (length l) (list->vector l)))
   \end{minted}
 \end{solution}
 
