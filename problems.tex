@@ -1,20 +1,36 @@
-\documentclass[addpoints,12pt,answers]{exam}
+\documentclass[addpoints,12pt]{exam}
 
-\usepackage{cmap}
+\makeatletter
+\expandafter\providecommand\expandafter*\csname ver@framed.sty\endcsname
+{2003/07/21 v0.8a Simulated by exam}
+\makeatother
+
 \usepackage{xcolor}
 \usepackage{minted}
 \usepackage[utf8]{inputenc}
-\usepackage{standalone}
 \usepackage{tikz}
 \usepackage{caption}
+\usepackage{gensymb}
+\usepackage{lmodern}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{array}
 \usepackage{adjustbox}
 \usepackage{upquote}
 \usepackage{amsmath}
+\usepackage[hidelinks]{hyperref}
 \usetikzlibrary{mindmap,shadows, shapes, arrows, positioning}
 
+\tikzstyle{rect} = [rectangle, fill=ProcessBlue, text width=4.5em, text centered, minimum height=4em, rounded corners]
+\tikzstyle{line} = [draw, ->, very thick]
+\tikzstyle{oval} = [ellipse, fill=SeaGreen, text width=5em, text centered]
+
+\newcolumntype{x}[1]{>{\centering\arraybackslash\hspace{0pt}}p{#1}}
+
+\renewcommand{\refname}{\selectfont\normalsize References} 
 \pagestyle{headandfoot}
 
-\header{Problem Sheet: Scheme}{}{Theory of Algorithms}
+\header{\textbf{Problem Sheet: Scheme}}{}{Theory of Algorithms}
 \footer{}{Page \thepage\ of \numpages}{}
 \marksnotpoints
 \pointsinrightmargin
@@ -24,4 +40,6 @@
 
 \begin{document}
 \input{content.tex}
+\bibliographystyle{plain}
+\bibliography{bibliography}
 \end{document}
