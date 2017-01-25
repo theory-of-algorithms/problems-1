@@ -51,6 +51,24 @@ It should return the new price:
   \end{minted}
 \end{solution}
 
+
+\question
+Define a function \mintinline{scheme}{grcomdiv} that takes two integers and returns their greatest common divisor.
+\begin{minted}{scheme}
+> (grcomdiv 10 15)
+5
+> (grcomdiv 64 30)
+2
+\end{minted}
+
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define (discount p d)
+  (* p (- 1 (/ d 100.0))))
+  \end{minted}
+\end{solution}
+
 \question
 Write a function called \mintinline{scheme}{appearances} that returns the number of times its first argument appears as a member of its second argument~\cite{simplyscheme}.
 
