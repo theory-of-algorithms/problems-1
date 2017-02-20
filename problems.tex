@@ -1,4 +1,6 @@
-\documentclass[addpoints,12pt]{exam}
+\documentclass[addpoints,12pt,a4paper]{exam}
+
+\printanswers
 
 \makeatletter
 \expandafter\providecommand\expandafter*\csname ver@framed.sty\endcsname
@@ -19,27 +21,306 @@
 \usepackage{upquote}
 \usepackage{amsmath}
 \usepackage[hidelinks]{hyperref}
-\usetikzlibrary{mindmap,shadows, shapes, arrows, positioning}
+\usepackage{fontawesome}
 
-\tikzstyle{rect} = [rectangle, fill=ProcessBlue, text width=4.5em, text centered, minimum height=4em, rounded corners]
-\tikzstyle{line} = [draw, ->, very thick]
-\tikzstyle{oval} = [ellipse, fill=SeaGreen, text width=5em, text centered]
+\usetikzlibrary{}
 
 \newcolumntype{x}[1]{>{\centering\arraybackslash\hspace{0pt}}p{#1}}
 
-\renewcommand{\refname}{\selectfont\normalsize References} 
 \pagestyle{headandfoot}
-
-\header{\textbf{Problem Sheet: Racket}}{}{Theory of Algorithms}
+\header{\textbf{Problem Sheet: Racket}}{}{\href{https://github.com/theory-of-algorithms}{Theory of Algorithms \faGithub}}
 \footer{}{Page \thepage\ of \numpages}{}
-\marksnotpoints
-\pointsinrightmargin
+
+
+\renewcommand{\refname}{\selectfont\normalsize References} 
+
 
 \begin{coverpages}
 \end{coverpages}
 
 \begin{document}
-\input{content.tex}
+
+
+
+\noindent
+The following exercises are related to the Racket programming language~\cite{racketwebsite}.
+
+\begin{questions}
+
+\question
+Re-write the following expressions in Racket and evaluate them using a Racket interpreter/compiler.
+\begin{parts}
+  \part $(3 \times (5 + (10 \div 5)))$
+  \part $(2 + 3 + 4 + 5)$
+  \part $(1 + (5 + (2 + (10 \div 3))))$
+  \part $(1 + (5 + (2 + (10 \div 3.0))))$
+  \part $(3 + 5) \times (10 \div 2)$
+  \part $(3 + 5) \times (10 \div 2) + (1 + (5 + (2 + (10 \div 3))))$
+\end{parts}
+
+
+\begin{solution}
+\begin{parts}
+  \part \mintinline{scheme}{(* (+ (/ 10 5) 5) 3)}
+  \part \mintinline{scheme}{(+ 2 3 4 5)}
+  \part \mintinline{scheme}{(+ (+ (+ (+ (/ 10 3) 2) 5) 1)}
+  \part \mintinline{scheme}{(+ (+ (+ (+ (/ 10 3.0) 2) 5) 1)}
+  \part \mintinline{scheme}{(* (+ 3 5) (/ 10 2))}
+  \part \mintinline{scheme}{(+ (* (+ 3 5) (/ 10 2)) (+ (+ (+ (+ (/ 10 3) 2) 5) 1))}
+\end{parts}
+\end{solution}
+
+
+\question
+Define a procedure \mintinline{scheme}{discount} that takes two arguments: an item’s initial price and a percentage discount \cite{simplyscheme}.
+It should return the new price:
+\begin{minted}{scheme}
+> (discount 10 5)
+9.50
+> (discount 29.90 50)
+14.95
+\end{minted}
+
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define (discount p d)
+  (* p (- 1 (/ d 100.0))))
+  \end{minted}
+\end{solution}
+
+
+\question
+Define a function \mintinline{scheme}{grcomdiv} that takes two integers and returns their greatest common divisor.
+\begin{minted}{scheme}
+> (grcomdiv 10 15)
+5
+> (grcomdiv 64 30)
+2
+\end{minted}
+
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define (discount p d)
+  (* p (- 1 (/ d 100.0))))
+  \end{minted}
+\end{solution}
+
+\question
+Write a function called \mintinline{scheme}{appearances} that returns the number of times its first argument appears as a member of its second argument~\cite{simplyscheme}.
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define (appearances i l)
+  (if (null? l)
+    0
+    (if (equal? i (car l))  
+      (+ 1 (appearances i (cdr l)))
+      (appearances i (cdr l)))))   
+  \end{minted}
+\end{solution}
+
+\question
+Write a procedure \mintinline{scheme}{inter} that takes two lists as arguments.
+It should return a list containing every element that appears in both lists, exactly once.
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define (inter l1 l2)
+  (if (null? l1)
+    '()
+    (if (and 
+          (memq (car l1) l2)
+          (not (memq (car l1) (cdr l1)))
+        )
+      (cons (car l1) (inter (cdr l1) l2))
+      (inter (cdr l1) l2))))
+  \end{minted}
+\end{solution}
+
+\question
+Write a procedure \mintinline{scheme}{noatoms} that takes a list and returns the number of atoms it contains.
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define (noatoms l)
+  (if (null? l)
+    0
+    (if (not (or (pair? (car l)) (null? (car l))))
+      (+ 1 (noatoms (cdr l)))
+      (noatoms (cdr l)))))
+  \end{minted}
+\end{solution}
+
+\question
+Here is a Racket procedure that never finishes its job:
+\begin{minted}{scheme}
+(define (forever n)
+  (if (= n 0)
+       1
+       (+ 1 (forever n))))
+\end{minted}
+Explain why it doesn’t give any result\cite{simplyscheme}.
+
+\begin{solution}
+The terminating condition is: $n$ equals 0.
+However, each time forever is called, $n$ is increased.
+\end{solution}
+
+\question
+Write a function called \mintinline{scheme}{range} that takes an integer $n$ and returns a list containing the atoms 1, 2, 3, \ldots, $n$.
+
+\begin{solution}
+\begin{minted}{scheme}
+(define (range n)
+  (if (= n 0)
+    '()
+    (append (range (- n 1)) (list n))))
+\end{minted}
+\end{solution}
+
+\question
+Write a function called \mintinline{scheme}{reversel} that takes a list and returns it reversed.  
+
+\question
+If we list all the natural numbers below 10 that are multiples of 3 or 5, we get 3, 5, 6 and 9.
+The sum of these multiples is 23.
+Write a procedure to find the sum of all the multiples of 3 or 5 below 1000~\cite{projecteuler}.
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define 
+  (sum35 n)
+    (if (= 0 n)
+      0
+      (if (= 0 (modulo n 3))
+      (+ n (sum35 (- n 1)))
+      (if (= 0 (modulo n 5))
+      (+ n (sum35 (- n 1)))
+      (sum35 (- n 1))))))
+  \end{minted}
+\end{solution}
+
+\question
+Write a procedure called \mintinline{scheme}{flatten} that takes as its argument a list, possibly including sublists, but whose ultimate building blocks are atoms.
+It should return a sentence containing all the atoms of the list, in the order in which they appear in the original:
+\begin{minted}{scheme}
+> (flatten '(((a b) c (d e)) (f g) ((((h))) (i j) k)))
+(a b c d e f g h i j k)
+\end{minted}
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define (flatten l)
+  (if (null? l)
+    '()
+    (if (pair? (car l))
+      (append (flatten (car l)) (flatten (cdr l)))
+      (cons (car l) (flatten (cdr l))))))
+  \end{minted}
+\end{solution}
+
+\question
+Each new term in the Fibonacci sequence is generated by adding the previous two terms.
+By starting with 1 and 2, the first 10 terms will be:
+\[ 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, \ldots \]
+By considering the terms in the Fibonacci sequence whose values do not exceed four million, find the sum of the even-valued terms~\cite{projecteuler}.
+
+\begin{solution}
+  \begin{minted}{scheme}
+ 
+(define (sumevf n)
+  (letrec (
+      (fib
+        (lambda (n)
+          (if (= n 0)
+            (list 0)
+            (if (= n 1)
+              (list 1 0)
+              (let ((l (fib (- n 1))))
+                (cons (+ (car l) (cadr l)) l)))))))
+    (apply
+      +
+      (map
+        (lambda (x) (if (= 0 (modulo x 2)) x 0))
+        (fib n)))))
+
+; Bonus function: calculates the n^th Fibonacci number. 
+(define (fib n)
+  (if (= n 0)
+    0
+    (if (= n 1)
+      1
+      (+ (fib (- n 1)) (fib (- n 2))))))
+
+; Bonus function: lists the first n Fibonacci numbers.
+(define (listfibs n)
+  (letrec
+    (
+      (fib
+        (lambda (n)
+          (if (= n 0)
+            (list 0)
+            (if (= n 1)
+              (list 1 0)
+              (let ((l (fib (- n 1))))
+                (cons (+ (car l) (cadr l)) l)))))))
+    (fib n)))
+  \end{minted}
+\end{solution}
+
+\question
+Write a procedure \mintinline{scheme}{to-binary}:
+\begin{minted}{scheme}
+> (to-binary 9)
+1001
+> (to-binary 23)
+10111
+\end{minted}
+
+\begin{solution}
+  \begin{minted}{scheme}
+(define (binary n)
+  (if (= n 0)
+    '()
+    (append
+      (binary (/ (- n (modulo n 2)) 2))
+      (list (modulo n 2)))))
+  \end{minted}
+\end{solution}
+
+\question
+Write Heap's algorithm for generating permutations in Racket.
+
+\begin{solution}
+  \begin{minted}{scheme}
+; From: stackoverflow.com/questions/35869763
+(define (generate n A)
+  (cond
+    ((= n 1) (display A)
+             (newline))
+    (else    (let loop ((i 0))
+               (generate (- n 1) A)
+               (if (even? n)
+                   (swap A i (- n 1))
+                   (swap A 0 (- n 1)))
+               (if (< i (- n 2))
+                   (loop (+ i 1))
+                   (generate (- n 1) A))))))
+
+(define (swap A i1 i2)
+  (let ((tmp (vector-ref A i1)))
+    (vector-set! A i1 (vector-ref A i2))
+    (vector-set! A i2 tmp)))
+
+(define (heap l)
+	(generate (length l) (list->vector l)))
+  \end{minted}
+\end{solution}
+
+\end{questions}
+
 \bibliographystyle{plain}
 \bibliography{bibliography}
 \end{document}
