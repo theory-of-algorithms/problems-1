@@ -61,12 +61,12 @@ Re-write the following expressions in Racket and evaluate them using a Racket in
 
 \begin{solution}
 \begin{parts}
-  \part \mintinline{scheme}{(* (+ (/ 10 5) 5) 3)}
+  \part \mintinline{scheme}{(* 3 (+ 5 (/ 10 5)))}
   \part \mintinline{scheme}{(+ 2 3 4 5)}
-  \part \mintinline{scheme}{(+ (+ (+ (/ 10 3) 2) 5) 1)}
-  \part \mintinline{scheme}{(+ (+ (+ (/ 10 3.0) 2) 5) 1)}
+  \part \mintinline{scheme}{(+ 1 (+ 5 (+ 2 (/ 10 3))))}
+  \part \mintinline{scheme}{(+ 1 (+ 5 (+ 2 (/ 10 3.0))))}
   \part \mintinline{scheme}{(* (+ 3 5) (/ 10 2))}
-  \part \mintinline{scheme}{(+ (* (+ 3 5) (/ 10 2)) (+ (+ (+ (+ (/ 10 3) 2) 5) 1)))}
+  \part \mintinline{scheme}{(+ (* (+ 3 5) (/ 10 2)) (+ 1 (+ 5 (+ 2 (/ 10 3))))))}
 \end{parts}
 \end{solution}
 
