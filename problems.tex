@@ -297,29 +297,22 @@ Write a function \mintinline{scheme}{select} that takes two elements, a list and
 Write a function \mintinline{scheme}{perms} that takes a list as its only argument, and returns a list containing all permutations of that list.
 
 \begin{solution}
-  \begin{minted}{scheme}
-  ; From http://rosettacode.org/wiki/Permutations#Scheme
-(define (insert l n e)
-  (if (= 0 n)
-      (cons e l)
-      (cons (car l) 
-            (insert (cdr l) (- n 1) e))))
- 
-(define (seq start end)
-  (if (= start end)
-      (list end)
-      (cons start (seq (+ start 1) end))))
- 
-(define (permute l)
+\begin{minted}{scheme}
+
+(define (perms l)
   (if (null? l)
     '(())
     (apply append
-      (map (lambda (p)
-        (map
-          (lambda (n) (insert p n (car l)))
-          (seq 0 (length p))))
-        (permute (cdr l))))))
+      (map
+       (lambda (i) (map
+         (lambda (j)(cons i j))
+         (perms (remove i l))))
+        l))))
   \end{minted}
+
+See the following URL for more information:
+
+\url{https://see.stanford.edu/materials/icsppcs107/32-Scheme-Examples.pdf}
 \end{solution}
 
 \end{questions}
