@@ -268,12 +268,10 @@ The least significant bit should be on the right of the list.
 
 \begin{solution}
   \begin{minted}{scheme}
-(define (binary n)
-  (if (= n 0)
-    '()
-    (append
-      (binary (/ (- n (modulo n 2)) 2))
-      (list (modulo n 2)))))
+(define (to-binary n) (if (= n 0)
+  '() (append
+    (to-binary (/ (- n (modulo n 2)) 2))
+    (list (modulo n 2)))))
   \end{minted}
 \end{solution}
 
