@@ -1,4 +1,4 @@
-# Problem Sheet: Scheme
+# Problem Sheet: Racket
 
 This is a problem sheet for the module **Theory of Algorithms**.
 The module is taught to fourth year undergraduate students at [GMIT](http://www.gmit.ie).

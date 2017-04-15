@@ -1,7 +1,26 @@
 {
-  "version": "0.1.0",
-  "command": "latexmk",
-  "isShellCommand": true,
-  "isBuildCommand": true,
-  "showOutput": "always"
+  "version": "0.1.0"
+  ,"_runner": "terminal"
+  , "tasks": [
+    {
+      "taskName": "Compile",
+      "command": "latexmk",
+      "isShellCommand": true,
+      "isBuildCommand": true,
+      "showOutput": "always"
+    },
+    {
+      "taskName": "Spell Check",
+      "command": "aspell -c -t ${file}",
+      "isShellCommand": true,
+      "isTestCommand": true,
+      "showOutput": "always"
+    },
+    {
+      "taskName": "Clean",
+      "command": "latexmk -C",
+      "isShellCommand": true,
+      "showOutput": "always"
+    }
+  ]
 }
